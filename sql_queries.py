@@ -11,8 +11,8 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 songplay_table_create = ("""
 CREATE TABLE IF NOT EXISTS songplays (
 songplay_id       BIGSERIAL         NOT NULL,
-start_time        NUMERIC,
-user_id           TEXT,
+start_time        NUMERIC           NOT NULL,
+user_id           INT               NOT NULL,
 level             TEXT,
 song_id           VARCHAR,
 artist_id         VARCHAR,
@@ -25,7 +25,7 @@ PRIMARY KEY (songplay_id)
 
 user_table_create = ("""
 CREATE TABLE IF NOT EXISTS users (
-user_id           TEXT, 
+user_id           INT, 
 first_name        TEXT, 
 last_name         TEXT, 
 gender            VARCHAR(1), 
@@ -50,21 +50,21 @@ CREATE TABLE IF NOT EXISTS artists (
 artist_id         VARCHAR           NOT NULL,
 name              VARCHAR,
 location          TEXT,
-latitude          VARCHAR,
-longitude         VARCHAR,
+latitude          FLOAT,
+longitude         FLOAT,
 PRIMARY KEY (artist_id)
 )
 """)
 
 time_table_create = ("""
 CREATE TABLE IF NOT EXISTS time (
-start_time        TEXT              NOT NULL,
-hour              TEXT              NOT NULL, 
-day               TEXT              NOT NULL,
-week              TEXT              NOT NULL, 
-month             TEXT              NOT NULL, 
-year              TEXT              NOT NULL, 
-weekday           TEXT              NOT NULL,
+start_time        TIME WITHOUT TIME ZONE         NOT NULL,
+hour              TEXT                                NOT NULL, 
+day               TEXT                                NOT NULL,
+week              TEXT                                NOT NULL, 
+month             TEXT                                NOT NULL, 
+year              TEXT                                NOT NULL, 
+weekday           TEXT                                NOT NULL,
 PRIMARY KEY (start_time)
 )
 """)
@@ -80,7 +80,8 @@ ON CONFLICT DO NOTHING
 user_table_insert = ("""
 INSERT INTO users (user_id, first_name, last_name, gender, level)
 VALUES (%s, %s, %s, %s, %s) 
-ON CONFLICT DO NOTHING
+ON CONFLICT (user_id) DO UPDATE SET 
+    level=EXCLUDED.level
 """)
 
 song_table_insert = ("""
