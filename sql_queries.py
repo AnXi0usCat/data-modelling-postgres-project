@@ -58,7 +58,7 @@ PRIMARY KEY (artist_id)
 
 time_table_create = ("""
 CREATE TABLE IF NOT EXISTS time (
-start_time        TIME WITHOUT TIME ZONE         NOT NULL,
+start_time        TIMESTAMP WITHOUT TIME ZONE         NOT NULL,
 hour              TEXT                                NOT NULL, 
 day               TEXT                                NOT NULL,
 week              TEXT                                NOT NULL, 

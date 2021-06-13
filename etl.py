@@ -38,7 +38,7 @@ def process_log_file(cur, filepath):
     t = df['ts'].apply(lambda x: datetime.datetime.fromtimestamp(x / 1000.0, tz=datetime.timezone.utc)) 
     
     # insert time data records
-    time_data = (t.dt.time, t.dt.hour, t.dt.day, t.dt.weekofyear, t.dt.month, t.dt.year, t.dt.weekday)
+    time_data = (t.values, t.dt.hour, t.dt.day, t.dt.weekofyear, t.dt.month, t.dt.year, t.dt.weekday)
     column_labels = ('timestamp', 'hour', 'day', 'week_of_year', 'month', 'year',  'weekday')
     time_dict = {k: v for k, v in zip(column_labels, time_data)}
     time_df = pd.DataFrame(time_dict)
